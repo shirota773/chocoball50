@@ -52,7 +52,7 @@ jobs:
       - name: Build Chocoball50 Firmware
         uses: 'docker://zmkfirmware/zmk-build-arm:stable'
         with:
-          args: 'west build -s zmk/app -b seeeduino_xiao_ble -- -DSHIELD=chocoball50 -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"'
+          args: 'west build -s zmk/app -b seeeduino_xiao_ble -- -DSHIELD=chocoball50 -DZMK_CONFIG="/github/workspace/config"'
 
       - name: Rename Firmware
         run: |
