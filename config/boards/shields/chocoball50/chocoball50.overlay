@@ -71,7 +71,30 @@
     };
 };
 
+/* Pinctrl definitions */
+&pinctrl {
+    /* LED Strip (WS2812) on SPI3 */
+    spi3_default: spi3_default {
+        group1 {
+            psels = <NRF_PSEL(SPIM_MOSI, 0, 6)>;
+        };
+    };
+
+    /* SPI2 for Trackball - currently disabled */
+    /*
+    spi2_default: spi2_default {
+        group1 {
+            psels = <NRF_PSEL(SPIM_SCK, 0, 15)>,
+                    <NRF_PSEL(SPIM_MOSI, 0, 16)>,
+                    <NRF_PSEL(SPIM_MISO, 0, 18)>;
+        };
+    };
+    */
+};
+
 /* SPI for Trackball (PMW3360/az1uball) */
+/* Note: Trackball support requires custom driver - disabled for initial build */
+/*
 &spi2 {
     status = "okay";
     pinctrl-0 = <&spi2_default>;
@@ -89,15 +112,7 @@
         y-input-code = <INPUT_REL_Y>;
     };
 };
-
-/* LED Strip (WS2812) */
-&pinctrl {
-    spi3_default: spi3_default {
-        group1 {
-            psels = <NRF_PSEL(SPIM_MOSI, 0, 6)>;
-        };
-    };
-};
+*/
 
 &spi3 {
     compatible = "nordic,nrf-spim";

@@ -6,10 +6,10 @@
 
 - **Board**: Seeed XIAO BLE (nRF52840)
 - **Layout**: 4x13 Ortholinear (52 keys)
-- **Trackball**: az1uball (PMW3360 sensor)
 - **Encoder**: Horizontal rotary encoder
 - **Lighting**: WS2812 RGB underglow LEDs
 - **Connectivity**: Bluetooth 5.0 with USB fallback
+- **Trackball**: az1uball (PMW3360 sensor) - *Planned, requires custom driver*
 
 ## Building Firmware
 
@@ -64,6 +64,14 @@ west build -s zmk/app -b seeeduino_xiao_ble -- -DSHIELD=chocoball50
 ## Customization
 
 Edit `chocoball50.keymap` to customize your key layout. Edit `chocoball50.conf` for firmware settings.
+
+## Trackball Support
+
+Trackball support (az1uball with PMW3360 sensor) is planned but currently disabled as it requires a custom ZMK driver module. The hardware configuration is prepared in the overlay file (commented out). To enable trackball support in the future:
+
+1. Add PMW3360 driver module to ZMK
+2. Uncomment trackball sections in `chocoball50.overlay`
+3. Uncomment trackball configs in `Kconfig.defconfig` and `chocoball50.conf`
 
 ## License
 

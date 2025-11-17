@@ -6,15 +6,17 @@ config ZMK_KEYBOARD_NAME
 config ZMK_USB_LOGGING
     default n
 
-# Trackball (PMW3360) configuration
+# SPI for LED strip (and future trackball support)
 config SPI
     default y
 
-config INPUT
-    default y
-
-config ZMK_MOUSE
-    default y
+# Trackball (PMW3360) configuration - disabled for initial build
+# Requires custom driver module
+# config INPUT
+#     default y
+#
+# config ZMK_MOUSE
+#     default y
 
 # LED strip configuration
 config LED_STRIP

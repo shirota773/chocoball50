@@ -1,4 +1,4 @@
-name: Build ZMK Firmware
+name: Build
 
 on:
   push:
@@ -10,9 +10,32 @@ on:
   workflow_dispatch:
 
 jobs:
+  matrix:
+    runs-on: ubuntu-latest
+    name: Fetch Build Keyboards
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install yaml2json
+        run: python3 -m pip install remarshal
+
+      - id: matrix
+        name: Fetch Build Matrix
+        run: |
+          echo "matrix=$(yaml2json build.yaml | jq -c .)" >> $GITHUB_OUTPUT
+
   build:
     runs-on: ubuntu-latest
+    container:
+      image: zmkfirmware/zmk-build-arm:stable
+    needs: matrix
     name: Build
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.matrix.outputs.matrix) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,39 +51,49 @@ jobs:
             zephyr/
             bootloader/
             zmk/
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('config/west.yml') }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('west.yml') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
       - name: West Init
-        uses: 'docker://zmkfirmware/zmk-build-arm:stable'
-        with:
-          args: 'west init -l config'
+        run: west init -l .
 
       - name: West Update
-        uses: 'docker://zmkfirmware/zmk-build-arm:stable'
-        with:
-          args: 'west update'
+        run: west update
 
-      - name: West Zephyr Export
-        uses: 'docker://zmkfirmware/zmk-build-arm:stable'
-        with:
-          args: 'west zephyr-export'
+      - name: West Zephyr export
+        run: west zephyr-export
 
-      - name: Build Chocoball50 Firmware
-        uses: 'docker://zmkfirmware/zmk-build-arm:stable'
-        with:
-          args: 'west build -s zmk/app -b seeeduino_xiao_ble -- -DSHIELD=chocoball50 -DZMK_CONFIG="/github/workspace/config"'
-
-      - name: Rename Firmware
+      - name: West Build (${{ matrix.board }}${{ matrix.shield && format(' - {0}', matrix.shield) || '' }})
+        shell: sh -x {0}
         run: |
-          mkdir -p firmware
-          cp build/zephyr/zmk.uf2 firmware/chocoball50-seeeduino_xiao_ble.uf2
+          west build -s zmk/app -b ${{ matrix.board }} -- -DZMK_CONFIG="${GITHUB_WORKSPACE}/config" ${{ matrix.shield && format('-DSHIELD={0}', matrix.shield) || '' }} ${{ matrix.cmake-args }}
 
-      - name: Upload Firmware
+      - name: ${{ matrix.shield }} ${{ matrix.board }} Kconfig file
+        run: |
+          if [ -f build/zephyr/.config ]
+          then
+            grep -v -e "^#" -e "^$" build/zephyr/.config | sort
+          else
+            echo "No Kconfig output"
+          fi
+
+      - name: Rename artifacts
+        shell: sh -x {0}
+        run: |
+          mkdir build/artifacts
+          if [ -f build/zephyr/zmk.uf2 ]
+          then
+            cp build/zephyr/zmk.uf2 "build/artifacts/${{ matrix.shield }}-${{ matrix.board }}-zmk.uf2"
+          elif [ -f build/zephyr/zmk.hex ]
+          then
+            cp build/zephyr/zmk.hex "build/artifacts/${{ matrix.shield }}-${{ matrix.board }}-zmk.hex"
+          fi
+
+      - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: chocoball50-firmware
-          path: firmware/
+          name: firmware-${{ matrix.shield }}-${{ matrix.board }}
+          path: build/artifacts
