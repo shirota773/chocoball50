@@ -1,0 +1,66 @@
+name: Build ZMK Firmware
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - 'claude/**'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache west modules
+        uses: actions/cache@v4
+        env:
+          cache-name: cache-zephyr-modules
+        with:
+          path: |
+            modules/
+            tools/
+            zephyr/
+            bootloader/
+            zmk/
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('config/west.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: West Init
+        uses: 'docker://zmkfirmware/zmk-build-arm:stable'
+        with:
+          args: 'west init -l config'
+
+      - name: West Update
+        uses: 'docker://zmkfirmware/zmk-build-arm:stable'
+        with:
+          args: 'west update'
+
+      - name: West Zephyr Export
+        uses: 'docker://zmkfirmware/zmk-build-arm:stable'
+        with:
+          args: 'west zephyr-export'
+
+      - name: Build Chocoball50 Firmware
+        uses: 'docker://zmkfirmware/zmk-build-arm:stable'
+        with:
+          args: 'west build -s zmk/app -b seeeduino_xiao_ble -- -DSHIELD=chocoball50 -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"'
+
+      - name: Rename Firmware
+        run: |
+          mkdir -p firmware
+          cp build/zephyr/zmk.uf2 firmware/chocoball50-seeeduino_xiao_ble.uf2
+
+      - name: Upload Firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: chocoball50-firmware
+          path: firmware/

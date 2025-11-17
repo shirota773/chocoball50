@@ -1,0 +1,13 @@
+file_format: "1"
+id: chocoball50
+name: Chocoball50
+type: shield
+url: https://github.com/shirota773/chocoball50
+requires:
+  - seeeduino_xiao_ble
+features:
+  - keys
+  - encoder
+  - underglow
+  - pointing
+siblings: []
