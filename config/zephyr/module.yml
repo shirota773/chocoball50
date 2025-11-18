@@ -1,6 +1,6 @@
-name: chocoball50-drivers
+name: chocoball50
 build:
-  cmake: .
-  kconfig: drivers/Kconfig
+  cmake: boards/shields/chocoball50
+  kconfig: boards/shields/chocoball50/Kconfig
   settings:
-    dts_root: .
+    dts_root: boards/shields/chocoball50
