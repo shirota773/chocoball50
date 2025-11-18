@@ -58,23 +58,10 @@ jobs:
             ${{ runner.os }}-
 
       - name: West Init
-        run: |
-          echo "Current directory: $(pwd)"
-          echo "Files in current directory:"
-          ls -la
-          echo "Running west init..."
-          west init -l config
-          echo "West init complete"
+        run: west init -l config
 
       - name: West Update
-        run: |
-          echo "Running west update..."
-          west update
-          echo "West update complete"
-          echo "Files after west update:"
-          ls -la
-          echo "ZMK directory contents:"
-          ls -la zmk/ || echo "zmk directory not found"
+        run: west update
 
       - name: West Zephyr export
         run: west zephyr-export
