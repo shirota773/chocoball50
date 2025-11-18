@@ -11,11 +11,11 @@
         zmk,kscan = &kscan0;
         zmk,matrix-transform = &default_transform;
         zmk,underglow = &led_strip;
-        zmk,ext-power = &ext_power;
+        zmk,ext-power = &ext_power_ctrl;
     };
 
     /* External power control for RGB LEDs */
-    ext_power: ext_power {
+    ext_power_ctrl: ext_power_ctrl {
         compatible = "zmk,ext-power-generic";
         label = "EXT_POWER";
         control-gpios = <&gpio0 13 GPIO_ACTIVE_HIGH>;
