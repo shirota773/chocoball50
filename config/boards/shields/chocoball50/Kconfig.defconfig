@@ -54,7 +54,7 @@ config AZ1UBALL
 
 config AZ1UBALL_THREAD_PRIORITY
     int "az1uball thread priority"
-    default 10
+    default 50
     depends on AZ1UBALL
     help
       Priority of thread used to handle the trackball data.
