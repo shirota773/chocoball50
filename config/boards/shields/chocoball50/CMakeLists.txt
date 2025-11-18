@@ -2,5 +2,5 @@
 # SPDX-License-Identifier: MIT
 
 if(CONFIG_AZ1UBALL)
-  add_subdirectory(az1uball)
+  zephyr_library_sources(az1uball/az1uball.c)
 endif()
