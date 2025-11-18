@@ -1,6 +1,4 @@
 name: chocoball50-drivers
-cmake-ext: True
-kconfig-ext: True
 build:
   cmake: .
   kconfig: drivers/Kconfig
