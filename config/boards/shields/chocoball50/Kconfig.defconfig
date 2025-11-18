@@ -35,11 +35,11 @@ config ZMK_USB_LOGGING
 # config ZMK_RGB_UNDERGLOW_AUTO_OFF_IDLE
 #     default y
 
-# Encoder configuration - disabled for initial build
-# config EC11
-#     default y
-#
-# config EC11_TRIGGER_GLOBAL_THREAD
-#     default y
+# Encoder configuration
+config EC11
+    default y
+
+config EC11_TRIGGER_GLOBAL_THREAD
+    default y
 
 endif

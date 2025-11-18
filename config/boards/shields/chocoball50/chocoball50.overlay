@@ -56,8 +56,7 @@
             ;
     };
 
-    /* Horizontal Rotary Encoder - disabled for initial build */
-    /*
+    /* Horizontal Rotary Encoder */
     encoder: encoder {
         compatible = "alps,ec11";
         a-gpios = <&gpio0 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
@@ -71,7 +70,6 @@
         sensors = <&encoder>;
         triggers-per-rotation = <15>;
     };
-    */
 };
 
 /* Pinctrl definitions */
