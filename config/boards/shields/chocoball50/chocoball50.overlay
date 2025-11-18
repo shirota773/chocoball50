@@ -10,8 +10,7 @@
     chosen {
         zmk,kscan = &kscan0;
         zmk,matrix-transform = &default_transform;
-        // Temporarily disable underglow for initial build
-        // zmk,underglow = &led_strip;
+        zmk,underglow = &led_strip;
     };
 
     /* 4x13 Ortholinear Matrix Transform */
@@ -56,7 +55,8 @@
             ;
     };
 
-    /* Horizontal Rotary Encoder */
+    /* Horizontal Rotary Encoder - disabled temporarily */
+    /*
     encoder: encoder {
         compatible = "alps,ec11";
         a-gpios = <&gpio0 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
@@ -70,10 +70,10 @@
         sensors = <&encoder>;
         triggers-per-rotation = <15>;
     };
+    */
 };
 
 /* Pinctrl definitions */
-/* Temporarily disabled for initial build
 &pinctrl {
     spi3_default: spi3_default {
         group1 {
@@ -82,6 +82,7 @@
     };
 };
 
+/* LED Strip (WS2812) */
 &spi3 {
     compatible = "nordic,nrf-spim";
     status = "okay";
@@ -99,4 +100,3 @@
         color-mapping = <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>;
     };
 };
-*/

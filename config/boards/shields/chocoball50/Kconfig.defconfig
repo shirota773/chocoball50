@@ -6,40 +6,39 @@ config ZMK_KEYBOARD_NAME
 config ZMK_USB_LOGGING
     default n
 
-# Temporarily disable all SPI features for initial build
-# SPI for LED strip (and future trackball support)
-# config SPI
+# SPI for LED strip
+config SPI
+    default y
+
+# LED strip configuration
+config LED_STRIP
+    default y
+
+config WS2812_STRIP
+    default y
+
+config ZMK_RGB_UNDERGLOW
+    default y
+
+config ZMK_RGB_UNDERGLOW_EXT_POWER
+    default y
+
+config ZMK_RGB_UNDERGLOW_AUTO_OFF_IDLE
+    default y
+
+# Encoder configuration - disabled temporarily
+# config EC11
+#     default y
+#
+# config EC11_TRIGGER_GLOBAL_THREAD
 #     default y
 
-# Trackball (PMW3360) configuration - disabled for initial build
+# Trackball (PMW3360) configuration - disabled
 # Requires custom driver module
 # config INPUT
 #     default y
 #
 # config ZMK_MOUSE
 #     default y
-
-# LED strip configuration - disabled for initial build
-# config LED_STRIP
-#     default y
-#
-# config WS2812_STRIP
-#     default y
-#
-# config ZMK_RGB_UNDERGLOW
-#     default y
-#
-# config ZMK_RGB_UNDERGLOW_EXT_POWER
-#     default y
-#
-# config ZMK_RGB_UNDERGLOW_AUTO_OFF_IDLE
-#     default y
-
-# Encoder configuration
-config EC11
-    default y
-
-config EC11_TRIGGER_GLOBAL_THREAD
-    default y
 
 endif
