@@ -30,9 +30,6 @@ config ZMK_RGB_UNDERGLOW_AUTO_OFF_IDLE
 config EC11
     default y
 
-config EC11_TRIGGER_GLOBAL_THREAD
-    default y
-
 # Trackball (PMW3360) configuration - disabled
 # Requires custom driver module
 # config INPUT
