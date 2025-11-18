@@ -1,6 +1,5 @@
 name: chocoball50
 build:
   cmake: boards/shields/chocoball50
-  kconfig: boards/shields/chocoball50/Kconfig
   settings:
     dts_root: boards/shields/chocoball50
