@@ -51,17 +51,30 @@ jobs:
             zephyr/
             bootloader/
             zmk/
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('west.yml') }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('config/west.yml') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
       - name: West Init
-        run: west init -l .
+        run: |
+          echo "Current directory: $(pwd)"
+          echo "Files in current directory:"
+          ls -la
+          echo "Running west init..."
+          west init -l config
+          echo "West init complete"
 
       - name: West Update
-        run: west update
+        run: |
+          echo "Running west update..."
+          west update
+          echo "West update complete"
+          echo "Files after west update:"
+          ls -la
+          echo "ZMK directory contents:"
+          ls -la zmk/ || echo "zmk directory not found"
 
       - name: West Zephyr export
         run: west zephyr-export
