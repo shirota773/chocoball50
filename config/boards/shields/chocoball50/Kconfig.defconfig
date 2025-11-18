@@ -26,12 +26,12 @@ config ZMK_RGB_UNDERGLOW_EXT_POWER
 config ZMK_RGB_UNDERGLOW_AUTO_OFF_IDLE
     default y
 
-# Encoder configuration - disabled temporarily
-# config EC11
-#     default y
-#
-# config EC11_TRIGGER_GLOBAL_THREAD
-#     default y
+# Encoder configuration
+config EC11
+    default y
+
+config EC11_TRIGGER_GLOBAL_THREAD
+    default y
 
 # Trackball (PMW3360) configuration - disabled
 # Requires custom driver module
