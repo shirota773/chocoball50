@@ -30,12 +30,17 @@ config ZMK_RGB_UNDERGLOW_AUTO_OFF_IDLE
 config EC11
     default y
 
-# Trackball (PMW3360) configuration - disabled
-# Requires custom driver module
-# config INPUT
-#     default y
-#
-# config ZMK_MOUSE
-#     default y
+# Trackball (az1uball) configuration
+config I2C
+    default y
+
+config INPUT
+    default y
+
+config ZMK_MOUSE
+    default y
+
+config AZ1UBALL
+    default y
 
 endif

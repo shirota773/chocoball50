@@ -1,0 +1,28 @@
+# Copyright (c) 2025 The ZMK Contributors
+# SPDX-License-Identifier: MIT
+
+config AZ1UBALL
+	bool "az1uball trackball driver"
+	default n
+	depends on I2C
+	select INPUT
+	help
+	  Enable driver for az1uball trackball module.
+	  The az1uball uses hall effect sensors and communicates
+	  via I2C at address 0x0A.
+
+if AZ1UBALL
+
+config AZ1UBALL_THREAD_PRIORITY
+	int "Thread priority"
+	default 10
+	help
+	  Priority of thread used to handle the trackball data.
+
+config AZ1UBALL_POLL_INTERVAL_MS
+	int "Polling interval in milliseconds"
+	default 8
+	help
+	  Interval between polling the az1uball for movement data.
+
+endif # AZ1UBALL

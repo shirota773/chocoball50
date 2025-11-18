@@ -48,8 +48,8 @@
             ;
 
         col-gpios
-            = <&xiao_d 4 GPIO_ACTIVE_HIGH>
-            , <&xiao_d 5 GPIO_ACTIVE_HIGH>
+            = <&gpio1 4 GPIO_ACTIVE_HIGH>
+            , <&gpio1 6 GPIO_ACTIVE_HIGH>
             , <&xiao_d 6 GPIO_ACTIVE_HIGH>
             , <&xiao_d 7 GPIO_ACTIVE_HIGH>
             , <&xiao_d 8 GPIO_ACTIVE_HIGH>
@@ -78,6 +78,22 @@
         compatible = "zmk,keymap-sensors";
         sensors = <&encoder>;
         triggers-per-rotation = <15>;
+    };
+};
+
+/* I2C configuration for trackball */
+&i2c0 {
+    status = "okay";
+
+    trackball: trackball@a {
+        compatible = "palette,az1uball";
+        reg = <0x0a>;
+        label = "TRACKBALL";
+        invert-x;
+        /* Uncomment to adjust trackball behavior:
+         * invert-y;
+         * swap-xy;
+         */
     };
 };
 

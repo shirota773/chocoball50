@@ -1,0 +1,23 @@
+# Copyright (c) 2025 The ZMK Contributors
+# SPDX-License-Identifier: MIT
+
+description: |
+  az1uball trackball module by Palette System.
+  Uses hall effect sensors and communicates via I2C.
+
+compatible: "palette,az1uball"
+
+include: i2c-device.yaml
+
+properties:
+  invert-x:
+    type: boolean
+    description: Invert X-axis movement
+
+  invert-y:
+    type: boolean
+    description: Invert Y-axis movement
+
+  swap-xy:
+    type: boolean
+    description: Swap X and Y axes
