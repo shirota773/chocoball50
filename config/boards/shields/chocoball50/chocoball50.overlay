@@ -13,6 +13,13 @@
         zmk,underglow = &led_strip;
     };
 
+    /* External power control for RGB LEDs */
+    ext_power {
+        compatible = "zmk,ext-power-generic";
+        label = "EXT_POWER";
+        control-gpios = <&gpio0 13 GPIO_ACTIVE_HIGH>;
+    };
+
     /* 4x13 Ortholinear Matrix Transform */
     default_transform: keymap_transform_0 {
         compatible = "zmk,matrix-transform";

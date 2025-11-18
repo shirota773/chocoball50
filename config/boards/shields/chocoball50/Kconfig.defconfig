@@ -20,9 +20,8 @@ config WS2812_STRIP
 config ZMK_RGB_UNDERGLOW
     default y
 
-# Disable ext_power - not needed for basic LED functionality
-# config ZMK_RGB_UNDERGLOW_EXT_POWER
-#     default y
+config ZMK_RGB_UNDERGLOW_EXT_POWER
+    default y
 
 config ZMK_RGB_UNDERGLOW_AUTO_OFF_IDLE
     default y
