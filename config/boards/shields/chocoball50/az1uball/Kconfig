@@ -4,8 +4,7 @@
 config AZ1UBALL
 	bool "az1uball trackball driver"
 	default n
-	depends on I2C
-	select INPUT
+	depends on I2C && INPUT
 	help
 	  Enable driver for az1uball trackball module.
 	  The az1uball uses hall effect sensors and communicates
