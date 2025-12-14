@@ -17,7 +17,6 @@
     /* External power control for RGB LEDs */
     ext_power_ctrl: ext_power_ctrl {
         compatible = "zmk,ext-power-generic";
-        label = "EXT_POWER";
         control-gpios = <&gpio0 13 GPIO_ACTIVE_HIGH>;
         init-delay-ms = <50>;
     };
@@ -38,6 +37,7 @@
     /* Key Matrix - Direct GPIO scanning */
     kscan0: kscan {
         compatible = "zmk,kscan-gpio-matrix";
+        wakeup-source;
         diode-direction = "col2row";
 
         row-gpios
@@ -67,7 +67,6 @@
     /* Horizontal Rotary Encoder */
     encoder: encoder {
         compatible = "alps,ec11";
-        label = "ENCODER";
         a-gpios = <&gpio0 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
         b-gpios = <&gpio0 12 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
         steps = <30>;
@@ -92,7 +91,6 @@
     trackball: trackball@a {
         compatible = "palette,az1uball";
         reg = <0x0a>;
-        label = "TRACKBALL";
         invert-x;
         /* Uncomment to adjust trackball behavior:
          * invert-y;
@@ -142,7 +140,6 @@
 
     led_strip: ws2812@0 {
         compatible = "worldsemi,ws2812-spi";
-        label = "WS2812";
         reg = <0>;
         spi-max-frequency = <4000000>;
         chain-length = <10>;
