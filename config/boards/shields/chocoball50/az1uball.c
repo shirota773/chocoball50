@@ -140,7 +140,7 @@ static int az1uball_init(const struct device *dev)
 	};                                                                  \
 	DEVICE_DT_INST_DEFINE(n, az1uball_init, NULL,                       \
 			      &az1uball_data_##n, &az1uball_config_##n,     \
-			      APPLICATION, CONFIG_AZ1UBALL_THREAD_PRIORITY, \
+			      POST_KERNEL, CONFIG_AZ1UBALL_THREAD_PRIORITY, \
 			      NULL);
 
 DT_INST_FOREACH_STATUS_OKAY(AZ1UBALL_INST)
