@@ -1,0 +1,3 @@
+# Vendor prefixes used in devicetree compatible strings
+
+palette	Palette System
