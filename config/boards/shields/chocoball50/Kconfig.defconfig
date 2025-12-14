@@ -4,7 +4,7 @@ config ZMK_KEYBOARD_NAME
     default "Chocoball50"
 
 config ZMK_USB_LOGGING
-    default n
+    default y
 
 # SPI for LED strip
 config SPI
