@@ -4,7 +4,7 @@ name: Chocoball50
 type: shield
 url: https://github.com/shirota773/chocoball50
 requires:
-  - seeeduino_xiao_ble
+  - xiao_ble
 features:
   - keys
   - encoder
