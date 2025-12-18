@@ -1,0 +1,26 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.log
+
+# Build artifacts
+*.zip
+dist/
+build/
+
+# Node modules (if you add build tools later)
+node_modules/
+package-lock.json
+
+# Generated icons (users should generate their own)
+icons/*.png
+!icons/icon.svg
