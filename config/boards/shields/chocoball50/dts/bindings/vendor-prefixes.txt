@@ -1,0 +1,2 @@
+# Custom vendor prefixes for Chocoball50
+palette	az1uball trackball module
