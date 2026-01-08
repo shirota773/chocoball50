@@ -4,7 +4,7 @@
 
 ## Features
 
-- **Board**: nice!nano v2 (nRF52840)
+- **Board**: nice!nano (nRF52840)
 - **Layout**: 4x13 Ortholinear (52 keys)
 - **Encoder**: Horizontal rotary encoder
 - **Lighting**: WS2812 RGB underglow LEDs
@@ -23,12 +23,12 @@ Push to the repository and GitHub Actions will automatically build the firmware.
 ```bash
 west init -l config
 west update
-west build -s zmk/app -b nice_nano_v2 -- -DSHIELD=chocoball50
+west build -s zmk/app -b nice_nano -- -DSHIELD=chocoball50
 ```
 
 ## Flashing
 
-1. Connect nice!nano v2 via USB
+1. Connect nice!nano via USB
 2. Double-tap reset button to enter bootloader mode
 3. Copy the `.uf2` file to the mounted drive (NICENANO)
 
@@ -45,7 +45,7 @@ west build -s zmk/app -b nice_nano_v2 -- -DSHIELD=chocoball50
 - `config/boards/shields/chocoball50/chocoball50.keymap` - Key mappings
 - `config/boards/shields/chocoball50/chocoball50.conf` - Firmware settings
 
-## Pin Mapping (nice!nano v2)
+## Pin Mapping (nice!nano)
 
 ### Matrix (4 rows x 13 columns)
 - **Rows**: D1 (TX), D0 (RX), D2, D3 (Pro Micro pins 0-3)
