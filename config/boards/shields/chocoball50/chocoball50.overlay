@@ -14,11 +14,15 @@
         zmk,ext-power = &ext_power_ctrl;
     };
 
-    /* External power control for RGB LEDs */
+    /* External power control for RGB LEDs
+     * NOTE: P0.13 is used for VCC control on nice!nano
+     * If your hardware uses a different pin for LED power control, update this section
+     * For now, using P1.13 as an alternative. Adjust based on your hardware.
+     */
     ext_power_ctrl: ext_power_ctrl {
         compatible = "zmk,ext-power-generic";
         label = "EXT_POWER";
-        control-gpios = <&gpio0 13 GPIO_ACTIVE_HIGH>;
+        control-gpios = <&gpio1 13 GPIO_ACTIVE_HIGH>;
         init-delay-ms = <50>;
     };
 
@@ -41,26 +45,26 @@
         diode-direction = "col2row";
 
         row-gpios
-            = <&xiao_d 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&xiao_d 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&xiao_d 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&xiao_d 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            = <&pro_micro 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&pro_micro 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&pro_micro 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&pro_micro 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
             ;
 
         col-gpios
-            = <&gpio1 4 GPIO_ACTIVE_HIGH>
-            , <&gpio1 6 GPIO_ACTIVE_HIGH>
-            , <&xiao_d 6 GPIO_ACTIVE_HIGH>
-            , <&xiao_d 7 GPIO_ACTIVE_HIGH>
-            , <&xiao_d 8 GPIO_ACTIVE_HIGH>
-            , <&xiao_d 9 GPIO_ACTIVE_HIGH>
-            , <&xiao_d 10 GPIO_ACTIVE_HIGH>
-            , <&gpio0 2 GPIO_ACTIVE_HIGH>
-            , <&gpio0 3 GPIO_ACTIVE_HIGH>
-            , <&gpio0 28 GPIO_ACTIVE_HIGH>
-            , <&gpio0 29 GPIO_ACTIVE_HIGH>
-            , <&gpio0 30 GPIO_ACTIVE_HIGH>
-            , <&gpio0 31 GPIO_ACTIVE_HIGH>
+            = <&pro_micro 4 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 5 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 6 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 7 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 8 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 9 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 10 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 14 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 15 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 16 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 18 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 19 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 20 GPIO_ACTIVE_HIGH>
             ;
     };
 
@@ -68,8 +72,8 @@
     encoder: encoder {
         compatible = "alps,ec11";
         label = "ENCODER";
-        a-gpios = <&gpio0 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-        b-gpios = <&gpio0 12 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        a-gpios = <&gpio1 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        b-gpios = <&gpio1 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
         steps = <30>;
         status = "okay";
     };
@@ -101,13 +105,13 @@
 &pinctrl {
     spi3_default: spi3_default {
         group1 {
-            psels = <NRF_PSEL(SPIM_MOSI, 0, 6)>;
+            psels = <NRF_PSEL(SPIM_MOSI, 1, 7)>;
         };
     };
 
     spi3_sleep: spi3_sleep {
         group1 {
-            psels = <NRF_PSEL(SPIM_MOSI, 0, 6)>;
+            psels = <NRF_PSEL(SPIM_MOSI, 1, 7)>;
             low-power-enable;
         };
     };

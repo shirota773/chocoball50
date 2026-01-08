@@ -4,12 +4,13 @@
 
 ## Features
 
-- **Board**: Seeed XIAO BLE (nRF52840)
+- **Board**: nice!nano v2 (nRF52840)
 - **Layout**: 4x13 Ortholinear (52 keys)
 - **Encoder**: Horizontal rotary encoder
 - **Lighting**: WS2812 RGB underglow LEDs
 - **Connectivity**: Bluetooth 5.0 with USB fallback
-- **Trackball**: az1uball (PMW3360 sensor) - *Planned, requires custom driver*
+- **Battery**: Supports rechargeable lithium battery (nice!nano feature)
+- **Trackball**: az1uball (PMW3360 sensor) - *I2C-based trackball support*
 
 ## Building Firmware
 
@@ -22,14 +23,14 @@ Push to the repository and GitHub Actions will automatically build the firmware.
 ```bash
 west init -l config
 west update
-west build -s zmk/app -b seeeduino_xiao_ble -- -DSHIELD=chocoball50
+west build -s zmk/app -b nice_nano_v2 -- -DSHIELD=chocoball50
 ```
 
 ## Flashing
 
-1. Connect XIAO BLE via USB
+1. Connect nice!nano v2 via USB
 2. Double-tap reset button to enter bootloader mode
-3. Copy the `.uf2` file to the mounted drive
+3. Copy the `.uf2` file to the mounted drive (NICENANO)
 
 ## Keymap
 
@@ -44,22 +45,25 @@ west build -s zmk/app -b seeeduino_xiao_ble -- -DSHIELD=chocoball50
 - `config/boards/shields/chocoball50/chocoball50.keymap` - Key mappings
 - `config/boards/shields/chocoball50/chocoball50.conf` - Firmware settings
 
-## Pin Mapping
+## Pin Mapping (nice!nano v2)
 
 ### Matrix (4 rows x 13 columns)
-- Rows: D0, D1, D2, D3
-- Columns: D4-D10, P0.02, P0.03, P0.28, P0.29, P0.30, P0.31
+- **Rows**: D1 (TX), D0 (RX), D2, D3 (Pro Micro pins 0-3)
+- **Columns**: D4-D10, D14-D16, A0-A2 (Pro Micro pins 4-10, 14-16, 18-20)
 
 ### Rotary Encoder
-- A: P0.04
-- B: P0.05
+- **A**: P1.01 (Extra GPIO)
+- **B**: P1.02 (Extra GPIO)
 
-### Trackball (SPI)
-- CS: P0.17
-- IRQ: P0.20
+### Trackball (I2C)
+- **Bus**: I2C0 (uses D0/D1 by default)
+- **Address**: 0x0A
 
-### LED Strip
-- Data: P0.06
+### LED Strip (WS2812)
+- **Data**: P1.07 (Extra GPIO, via SPI3)
+- **Power Control**: P1.13 (configurable based on hardware)
+
+**Note**: nice!nano uses Pro Micro compatible pinout. Extra GPIO pins (P1.01, P1.02, P1.07) are available on the back of the board.
 
 ## Customization
 
@@ -67,11 +71,21 @@ Edit `chocoball50.keymap` to customize your key layout. Edit `chocoball50.conf` 
 
 ## Trackball Support
 
-Trackball support (az1uball with PMW3360 sensor) is planned but currently disabled as it requires a custom ZMK driver module. The hardware configuration is prepared in the overlay file (commented out). To enable trackball support in the future:
+The firmware includes custom I2C-based trackball support (az1uball driver) for PMW3360 sensor. The trackball is configured to:
 
-1. Add PMW3360 driver module to ZMK
-2. Uncomment trackball sections in `chocoball50.overlay`
-3. Uncomment trackball configs in `Kconfig.defconfig` and `chocoball50.conf`
+- Poll at 8ms intervals (125Hz)
+- Support axis inversion and swapping
+- Report button state
+- Thread priority set to 50
+
+The trackball configuration can be adjusted in `chocoball50.conf`:
+- `CONFIG_AZ1UBALL_POLL_INTERVAL_MS`: Polling interval (default: 8)
+- `CONFIG_AZ1UBALL_THREAD_PRIORITY`: Thread priority (default: 50)
+
+To adjust trackball behavior, modify the devicetree properties in `chocoball50.overlay`:
+- `invert-x`: Invert X-axis movement
+- `invert-y`: Invert Y-axis movement
+- `swap-xy`: Swap X and Y axes
 
 ## License
 
