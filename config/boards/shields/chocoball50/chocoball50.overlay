@@ -15,9 +15,7 @@
     };
 
     /* External power control for RGB LEDs
-     * NOTE: P0.13 is used for VCC control on nice!nano
-     * If your hardware uses a different pin for LED power control, update this section
-     * For now, using P1.13 as an alternative. Adjust based on your hardware.
+     * NOTE: This uses P1.13. Adjust based on your hardware.
      */
     ext_power_ctrl: ext_power_ctrl {
         compatible = "zmk,ext-power-generic";
@@ -87,8 +85,6 @@
 
 /* I2C configuration for trackball */
 &i2c0 {
-    status = "okay";
-
     trackball: trackball@a {
         compatible = "palette,az1uball";
         reg = <0x0a>;
@@ -98,41 +94,5 @@
          * invert-y;
          * swap-xy;
          */
-    };
-};
-
-/* Pinctrl definitions */
-&pinctrl {
-    spi3_default: spi3_default {
-        group1 {
-            psels = <NRF_PSEL(SPIM_MOSI, 1, 7)>;
-        };
-    };
-
-    spi3_sleep: spi3_sleep {
-        group1 {
-            psels = <NRF_PSEL(SPIM_MOSI, 1, 7)>;
-            low-power-enable;
-        };
-    };
-};
-
-/* LED Strip (WS2812) */
-&spi3 {
-    compatible = "nordic,nrf-spim";
-    status = "okay";
-    pinctrl-0 = <&spi3_default>;
-    pinctrl-1 = <&spi3_sleep>;
-    pinctrl-names = "default", "sleep";
-
-    led_strip: ws2812@0 {
-        compatible = "worldsemi,ws2812-spi";
-        label = "WS2812";
-        reg = <0>;
-        spi-max-frequency = <4000000>;
-        chain-length = <10>;
-        spi-one-frame = <0x70>;
-        spi-zero-frame = <0x40>;
-        color-mapping = <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>;
     };
 };
