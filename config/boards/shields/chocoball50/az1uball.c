@@ -89,12 +89,6 @@ static void az1uball_work_handler(struct k_work *work)
 		data->prev_button = button;
 	}
 
-	/* Sync if any events were reported */
-	if (dx != 0 || dy != 0 || button != data->prev_button) {
-		input_report_abs(dev, INPUT_ABS_X, 0, false, K_FOREVER);
-		input_report_abs(dev, INPUT_ABS_Y, 0, true, K_FOREVER);
-	}
-
 schedule:
 	/* Schedule next poll */
 	k_work_schedule(&data->work, K_MSEC(CONFIG_AZ1UBALL_POLL_INTERVAL_MS));
@@ -134,13 +128,13 @@ static int az1uball_init(const struct device *dev)
 	static struct az1uball_data az1uball_data_##n;                      \
 	static const struct az1uball_config az1uball_config_##n = {         \
 		.i2c = I2C_DT_SPEC_INST_GET(n),                             \
-		.invert_x = DT_INST_PROP(n, invert_x),                      \
-		.invert_y = DT_INST_PROP(n, invert_y),                      \
-		.swap_xy = DT_INST_PROP(n, swap_xy),                        \
+		.invert_x = DT_INST_PROP_OR(n, invert_x, 0),                \
+		.invert_y = DT_INST_PROP_OR(n, invert_y, 0),                \
+		.swap_xy = DT_INST_PROP_OR(n, swap_xy, 0),                  \
 	};                                                                  \
 	DEVICE_DT_INST_DEFINE(n, az1uball_init, NULL,                       \
 			      &az1uball_data_##n, &az1uball_config_##n,     \
-			      APPLICATION, CONFIG_AZ1UBALL_THREAD_PRIORITY, \
+			      POST_KERNEL, CONFIG_AZ1UBALL_THREAD_PRIORITY, \
 			      NULL);
 
 DT_INST_FOREACH_STATUS_OKAY(AZ1UBALL_INST)
