@@ -52,13 +52,15 @@ west build -s zmk/app -b nice_nano -- -DSHIELD=chocoball50
 - **Columns**: D4-D10, D14-D16, A0-A2 (Pro Micro pins 4-10, 14-16, 18-20)
 
 ### Rotary Encoder
+- **Status**: ⚠️ Temporarily disabled (pins used for trackball I2C)
 - **A**: P1.01 (Extra GPIO)
 - **B**: P1.02 (Extra GPIO)
+- Will be re-enabled after implementing duplex matrix to free up pins
 
 ### Trackball (I2C)
-- **Bus**: I2C1 (custom pins to avoid matrix conflicts)
-- **SDA**: D12 / A0 (P0.29)
-- **SCL**: D13 / A2 (P0.31)
+- **Bus**: I2C1
+- **SDA**: P1.01 (Extra GPIO on back of nice!nano)
+- **SCL**: P1.02 (Extra GPIO on back of nice!nano)
 - **Address**: 0x0A
 
 ### LED Strip (WS2812)

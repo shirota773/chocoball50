@@ -27,7 +27,8 @@
                 &kp LCTRL &kp LGUI  &kp LALT  &mo LOWER &kp SPACE &kp SPACE &kp SPACE &mo RAISE &kp RALT  &kp RCTRL &kp LEFT  &kp DOWN  &kp RIGHT
             >;
 
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
+            // Encoder temporarily disabled - pins used for trackball
+            // sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
 
         lower_layer {
@@ -39,7 +40,8 @@
                 &trans    &trans    &trans    &trans    &trans    &trans    &trans    &mo ADJUST &trans   &trans    &trans    &kp PG_DN &trans
             >;
 
-            sensor-bindings = <&inc_dec_kp PG_UP PG_DN>;
+            // Encoder temporarily disabled - pins used for trackball
+            // sensor-bindings = <&inc_dec_kp PG_UP PG_DN>;
         };
 
         raise_layer {
@@ -51,7 +53,8 @@
                 &trans    &trans    &trans    &mo ADJUST &trans   &trans    &trans    &trans    &trans    &trans    &trans    &kp PG_DN &trans
             >;
 
-            sensor-bindings = <&inc_dec_kp C_BRI_UP C_BRI_DN>;
+            // Encoder temporarily disabled - pins used for trackball
+            // sensor-bindings = <&inc_dec_kp C_BRI_UP C_BRI_DN>;
         };
 
         adjust_layer {
@@ -63,7 +66,8 @@
                 &trans      &out OUT_TOG    &trans          &trans          &trans          &trans &trans &trans &trans &trans &trans &trans &trans
             >;
 
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
+            // Encoder temporarily disabled - pins used for trackball
+            // sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
     };
 };

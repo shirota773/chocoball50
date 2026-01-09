@@ -70,7 +70,11 @@
             ;
     };
 
-    /* Horizontal Rotary Encoder */
+    /* Horizontal Rotary Encoder
+     * Temporarily disabled - P1.01/P1.02 are used for trackball I2C
+     * Re-enable after implementing duplex matrix to free up pins
+     */
+    /*
     encoder: encoder {
         compatible = "alps,ec11";
         label = "ENCODER";
@@ -85,11 +89,13 @@
         sensors = <&encoder>;
         triggers-per-rotation = <15>;
     };
+    */
 };
 
 /* I2C1 configuration for trackball
- * Uses D12 (P0.29/A0) and D13 (P0.31/A2) to avoid conflicts with keyboard matrix.
+ * Uses P1.01 (SDA) and P1.02 (SCL) - nice!nano extra GPIO pins on the back.
  * I2C pins configured in boards/nice_nano.overlay.
+ * Note: Encoder is temporarily disabled to free up these pins.
  */
 &i2c1 {
     trackball: trackball@a {

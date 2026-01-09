@@ -24,8 +24,9 @@ config ZMK_RGB_UNDERGLOW_AUTO_OFF_IDLE
     default y
 
 # Encoder configuration
-config EC11
-    default y
+# Temporarily disabled - pins used for trackball I2C
+# config EC11
+#     default y
 
 # Trackball (az1uball) configuration
 config I2C
