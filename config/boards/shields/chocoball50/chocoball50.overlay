@@ -87,24 +87,19 @@
     };
 };
 
-/* I2C configuration for trackball
- * WARNING: I2C0 uses D0/D1 (SDA/SCL) which conflicts with Row 0/1 in the matrix.
- * Temporarily disabled for keyboard matrix testing.
- * To re-enable:
- * 1. Uncomment this section
- * 2. Enable CONFIG_I2C=y and CONFIG_AZ1UBALL=y in chocoball50.conf
- * 3. Consider using different I2C pins or different row pins to avoid conflicts
+/* I2C1 configuration for trackball
+ * Uses D12 (P0.29/A0) and D13 (P0.31/A2) to avoid conflicts with keyboard matrix.
+ * I2C pins configured in boards/nice_nano.overlay.
  */
-/*
-&i2c0 {
+&i2c1 {
     trackball: trackball@a {
         compatible = "palette,az1uball";
         reg = <0x0a>;
         label = "TRACKBALL";
         invert-x;
-        // Uncomment to adjust trackball behavior:
-        // invert-y;
-        // swap-xy;
+        /* Uncomment to adjust trackball behavior:
+         * invert-y;
+         * swap-xy;
+         */
     };
 };
-*/

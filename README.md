@@ -56,7 +56,9 @@ west build -s zmk/app -b nice_nano -- -DSHIELD=chocoball50
 - **B**: P1.02 (Extra GPIO)
 
 ### Trackball (I2C)
-- **Bus**: I2C0 (uses D0/D1 by default)
+- **Bus**: I2C1 (custom pins to avoid matrix conflicts)
+- **SDA**: D12 / A0 (P0.29)
+- **SCL**: D13 / A2 (P0.31)
 - **Address**: 0x0A
 
 ### LED Strip (WS2812)

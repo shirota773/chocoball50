@@ -3,13 +3,23 @@
  * SPDX-License-Identifier: MIT
  */
 
-/* I2C configuration for trackball */
-&i2c0 {
-    status = "okay";
-};
-
-/* Pinctrl definitions for SPI3 (RGB LED) */
+/* Pinctrl definitions for I2C1 (Trackball) */
 &pinctrl {
+    i2c1_default: i2c1_default {
+        group1 {
+            psels = <NRF_PSEL(TWIM_SDA, 0, 29)>,  /* D12 */
+                    <NRF_PSEL(TWIM_SCL, 0, 31)>;  /* D13 */
+        };
+    };
+
+    i2c1_sleep: i2c1_sleep {
+        group1 {
+            psels = <NRF_PSEL(TWIM_SDA, 0, 29)>,
+                    <NRF_PSEL(TWIM_SCL, 0, 31)>;
+            low-power-enable;
+        };
+    };
+
     spi3_default: spi3_default {
         group1 {
             psels = <NRF_PSEL(SPIM_MOSI, 1, 7)>;
@@ -22,6 +32,15 @@
             low-power-enable;
         };
     };
+};
+
+/* I2C1 configuration for trackball using D12/D13 */
+&i2c1 {
+    compatible = "nordic,nrf-twim";
+    status = "okay";
+    pinctrl-0 = <&i2c1_default>;
+    pinctrl-1 = <&i2c1_sleep>;
+    pinctrl-names = "default", "sleep";
 };
 
 /* LED Strip (WS2812) on extra GPIO P1.07 */
