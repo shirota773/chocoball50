@@ -28,41 +28,42 @@ config EC11
     default y
 
 # Trackball (az1uball) configuration
-# Enable I2C and Input subsystem first
-config I2C
-    default y
+# Temporarily disabled to avoid I2C/GPIO conflicts
+# Uncomment to re-enable after resolving pin conflicts
+# config I2C
+#     default y
 
-config INPUT
-    default y
+# config INPUT
+#     default y
 
-config ZMK_MOUSE
-    default y
+# config ZMK_MOUSE
+#     default y
 
 # az1uball driver configuration (integrated)
-if I2C && INPUT
+# if I2C && INPUT
 
-config AZ1UBALL
-    bool "az1uball trackball driver"
-    default y
-    help
-      Enable driver for az1uball trackball module.
-      The az1uball uses hall effect sensors and communicates
-      via I2C at address 0x0A.
+# config AZ1UBALL
+#     bool "az1uball trackball driver"
+#     default y
+#     help
+#       Enable driver for az1uball trackball module.
+#       The az1uball uses hall effect sensors and communicates
+#       via I2C at address 0x0A.
 
-config AZ1UBALL_THREAD_PRIORITY
-    int "az1uball thread priority"
-    default 50
-    depends on AZ1UBALL
-    help
-      Priority of thread used to handle the trackball data.
+# config AZ1UBALL_THREAD_PRIORITY
+#     int "az1uball thread priority"
+#     default 50
+#     depends on AZ1UBALL
+#     help
+#       Priority of thread used to handle the trackball data.
 
-config AZ1UBALL_POLL_INTERVAL_MS
-    int "az1uball polling interval in milliseconds"
-    default 8
-    depends on AZ1UBALL
-    help
-      Interval between polling the az1uball for movement data.
+# config AZ1UBALL_POLL_INTERVAL_MS
+#     int "az1uball polling interval in milliseconds"
+#     default 8
+#     depends on AZ1UBALL
+#     help
+#       Interval between polling the az1uball for movement data.
 
-endif
+# endif
 
 endif
