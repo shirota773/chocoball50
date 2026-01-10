@@ -1,12 +1,5 @@
 # Copyright (c) 2024 The ZMK Contributors
 # SPDX-License-Identifier: MIT
 
-# Japanese duplex matrix kscan driver
-config ZMK_KSCAN_GPIO_DUPLEX
-    bool
-
 config SHIELD_CHOCOBALL50
     def_bool $(shields_list_contains,chocoball50)
-    select ZMK_KSCAN_GPIO_DUPLEX
-    select KSCAN
-    select GPIO

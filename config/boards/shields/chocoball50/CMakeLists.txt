@@ -2,10 +2,8 @@
 # SPDX-License-Identifier: MIT
 
 # Custom kscan driver for Japanese duplex matrix
-if(CONFIG_ZMK_KSCAN_GPIO_DUPLEX)
-  message(STATUS "Japanese duplex matrix kscan driver enabled")
-  zephyr_library_sources(drivers/kscan/kscan_gpio_duplex.c)
-endif()
+# Always compile for this shield since it's in the devicetree
+zephyr_library_sources(drivers/kscan/kscan_gpio_duplex.c)
 
 # az1uball trackball driver
 if(CONFIG_AZ1UBALL)
