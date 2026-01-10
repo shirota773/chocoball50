@@ -1,9 +1,5 @@
 # Copyright (c) 2024 The ZMK Contributors
 # SPDX-License-Identifier: MIT
 
-# Source driver Kconfig files
-rsource "drivers/kscan/Kconfig"
-
 config SHIELD_CHOCOBALL50
     def_bool $(shields_list_contains,chocoball50)
-    select ZMK_KSCAN_GPIO_DUPLEX

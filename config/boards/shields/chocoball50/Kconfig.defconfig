@@ -6,6 +6,31 @@ config ZMK_KEYBOARD_NAME
 config ZMK_USB_LOGGING
     default n
 
+# Japanese duplex matrix kscan driver
+config ZMK_KSCAN_GPIO_DUPLEX
+    bool "Japanese duplex matrix keyboard scan driver"
+    default y
+    depends on GPIO
+    help
+      Enable support for Japanese duplex matrix scanning.
+
+      This driver allows bidirectional scanning of a keyboard matrix,
+      where the same GPIO pins alternate between column (output) and
+      row (input) roles in two separate scanning passes.
+
+      This significantly reduces the number of GPIO pins needed:
+      - Standard 4x13 matrix: 17 pins
+      - Duplex 7+4 matrix: 11 pins (52+ keys capacity)
+
+      Requires proper diode placement for bidirectional scanning.
+
+if ZMK_KSCAN_GPIO_DUPLEX
+
+config KSCAN
+    default y
+
+endif # ZMK_KSCAN_GPIO_DUPLEX
+
 # SPI for LED strip
 config SPI
     default y
