@@ -60,11 +60,11 @@ jobs:
       - name: West Init
         run: west init -l config
 
-      - name: West Update
-        run: west update --narrow --fetch-opt=--depth=1
+      # - name: West Update
+      #   run: west update --narrow --fetch-opt=--depth=1
 
-      - name: West Zephyr export
-        run: west zephyr-export
+      # - name: West Zephyr export
+      #   run: west zephyr-export
 
       - name: West Build (${{ matrix.board }}${{ matrix.shield && format(' - {0}', matrix.shield) || '' }})
         shell: sh -x {0}
