@@ -6,4 +6,4 @@ rsource "drivers/kscan/Kconfig"
 
 config SHIELD_CHOCOBALL50
     def_bool $(shields_list_contains,chocoball50)
-    select ZMK_KSCAN_GPIO_DUPLEX if SHIELD_CHOCOBALL50
+    select ZMK_KSCAN_GPIO_DUPLEX
