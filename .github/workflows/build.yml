@@ -41,6 +41,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Cache west modules
+        id: cache
         uses: actions/cache@v4
         env:
           cache-name: cache-zephyr-modules
@@ -61,9 +62,11 @@ jobs:
         run: west init -l config
 
       - name: West Update
+        if: steps.cache.outputs.cache-hit != 'true'
         run: west update --narrow --fetch-opt=--depth=1
 
       - name: West Zephyr export
+        if: steps.cache.outputs.cache-hit != 'true'
         run: west zephyr-export
 
       - name: West Build (${{ matrix.board }}${{ matrix.shield && format(' - {0}', matrix.shield) || '' }})
