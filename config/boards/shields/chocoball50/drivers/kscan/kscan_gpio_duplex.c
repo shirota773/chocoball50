@@ -15,7 +15,7 @@
 
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
-#define INST_DUPLEX_LEN(n) DT_INST_PROP(n, duplex_gpios)
+#define INST_DUPLEX_LEN(n) DT_INST_PROP(n, duplex_split_index)
 #define INST_MATRIX_LEN(n) DT_INST_PROP_LEN(n, gpios)
 #define INST_COLS(n) INST_DUPLEX_LEN(n)
 #define INST_ROWS(n) (INST_MATRIX_LEN(n) - INST_DUPLEX_LEN(n))
@@ -254,7 +254,7 @@ static const struct kscan_driver_api kscan_duplex_api = {
     static const struct kscan_duplex_config kscan_duplex_config_##n = {                           \
         .gpios = kscan_duplex_gpios_##n,                                                          \
         .num_gpios = ARRAY_SIZE(kscan_duplex_gpios_##n),                                         \
-        .duplex_index = DT_INST_PROP(n, duplex_gpios),                                           \
+        .duplex_index = DT_INST_PROP(n, duplex_split_index),                                     \
         .debounce_period_ms = DT_INST_PROP_OR(n, debounce_period_ms, 5),                        \
         .poll_period_ms = DT_INST_PROP_OR(n, poll_period_ms, 10),                               \
     };                                                                                             \

@@ -34,15 +34,15 @@ properties:
       First N pins (0 to duplex-gpios-1) act as columns in pass 1, rows in pass 2.
       Remaining pins (duplex-gpios to end) act as rows in pass 1, columns in pass 2.
 
-  duplex-gpios:
+  duplex-split-index:
     type: int
     required: true
     description: |
       Index that splits the GPIO array into two groups for duplex scanning.
-      Pins [0..duplex-gpios) are driven in pass 1, sensed in pass 2.
-      Pins [duplex-gpios..length) are sensed in pass 1, driven in pass 2.
+      Pins [0..duplex-split-index) are driven in pass 1, sensed in pass 2.
+      Pins [duplex-split-index..length) are sensed in pass 1, driven in pass 2.
 
-      Example: For 11 pins with duplex-gpios = 7:
+      Example: For 11 pins with duplex-split-index = 7:
         Pass 1: 7 columns × 4 rows = 28 keys
         Pass 2: 7 rows × 4 columns = 28 keys
         Total: 56 key capacity
