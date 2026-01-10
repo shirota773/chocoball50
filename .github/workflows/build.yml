@@ -66,7 +66,6 @@ jobs:
         run: west update --narrow --fetch-opt=--depth=1
 
       - name: West Zephyr export
-        if: steps.cache.outputs.cache-hit != 'true'
         run: west zephyr-export
 
       - name: West Build (${{ matrix.board }}${{ matrix.shield && format(' - {0}', matrix.shield) || '' }})
