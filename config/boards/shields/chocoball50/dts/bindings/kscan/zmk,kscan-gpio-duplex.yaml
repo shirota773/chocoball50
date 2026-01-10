@@ -1,0 +1,64 @@
+# Copyright (c) 2024 The ZMK Contributors
+# SPDX-License-Identifier: MIT
+
+description: |
+  Japanese duplex matrix keyboard scan driver for ZMK.
+
+  This driver implements bidirectional matrix scanning where the same set of
+  GPIO pins is used for both rows and columns by alternating their roles:
+
+  Pass 1: Pins [0..duplex-gpios) are columns (output),
+          Pins [duplex-gpios..end) are rows (input)
+  Pass 2: Pins [0..duplex-gpios) are rows (input),
+          Pins [duplex-gpios..end) are columns (output)
+
+  This allows scanning approximately 2*N*M keys with N+M GPIO pins instead
+  of requiring N+M pins for an N*M matrix.
+
+  Example for 52 keys:
+    - Standard matrix: 4 rows + 13 cols = 17 pins
+    - Duplex matrix: 7 cols + 4 rows = 11 pins (6 pins saved)
+
+  Hardware requirements:
+    - Diodes in series with each switch
+    - Proper orientation for each pass scanning direction
+
+compatible: "zmk,kscan-gpio-duplex"
+
+include: kscan.yaml
+
+properties:
+  gpios:
+    type: phandle-array
+    required: true
+    description: |
+      Array of GPIOs used for the duplex matrix.
+      First N pins (0 to duplex-gpios-1) act as columns in pass 1, rows in pass 2.
+      Remaining pins (duplex-gpios to end) act as rows in pass 1, columns in pass 2.
+
+  duplex-gpios:
+    type: int
+    required: true
+    description: |
+      Index that splits the GPIO array into two groups for duplex scanning.
+      Pins [0..duplex-gpios) are driven in pass 1, sensed in pass 2.
+      Pins [duplex-gpios..length) are sensed in pass 1, driven in pass 2.
+
+      Example: For 11 pins with duplex-gpios = 7:
+        Pass 1: 7 columns × 4 rows = 28 keys
+        Pass 2: 7 rows × 4 columns = 28 keys
+        Total: 56 key capacity
+
+  debounce-period-ms:
+    type: int
+    default: 5
+    description: |
+      Debounce period in milliseconds.
+      Used as scan interval when keys are being pressed/released.
+
+  poll-period-ms:
+    type: int
+    default: 10
+    description: |
+      Polling period in milliseconds when no keys are pressed.
+      Scan interval increases to this value when matrix is idle.

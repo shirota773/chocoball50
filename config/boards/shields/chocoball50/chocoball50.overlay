@@ -37,44 +37,49 @@
         >;
     };
 
-    /* Key Matrix - Direct GPIO scanning */
+    /* Japanese Duplex Matrix - Bidirectional GPIO scanning
+     * 11 pins total (saves 6 pins vs. standard 4x13 matrix)
+     *
+     * Configuration:
+     * - duplex-gpios = 7: First 7 pins are columns in pass 1, rows in pass 2
+     *                     Last 4 pins are rows in pass 1, columns in pass 2
+     *
+     * Pass 1 (COL2ROW): 7 columns × 4 rows = 28 keys
+     * Pass 2 (ROW2COL): 7 rows × 4 columns = 28 keys
+     * Total capacity: 56 keys (52 keys used)
+     *
+     * Pin usage: D1, D0, D2, D3, D4, D5, D6, D7, D8, D9, D10
+     * Freed pins: D14-D16, A0-A2 (can be used for encoder, I2C, etc.)
+     */
     kscan0: kscan {
-        compatible = "zmk,kscan-gpio-matrix";
-        diode-direction = "col2row";
+        compatible = "zmk,kscan-gpio-duplex";
 
-        /* Debounce configuration to prevent key chatter */
-        debounce-press-ms = <5>;
-        debounce-release-ms = <5>;
-
-        row-gpios
-            = <&pro_micro 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&pro_micro 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&pro_micro 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&pro_micro 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        /* All 11 GPIO pins for duplex scanning */
+        gpios
+            = <&pro_micro 1 GPIO_ACTIVE_HIGH>  /* Pin 0: Col in pass1, Row in pass2 */
+            , <&pro_micro 0 GPIO_ACTIVE_HIGH>  /* Pin 1: Col in pass1, Row in pass2 */
+            , <&pro_micro 2 GPIO_ACTIVE_HIGH>  /* Pin 2: Col in pass1, Row in pass2 */
+            , <&pro_micro 3 GPIO_ACTIVE_HIGH>  /* Pin 3: Col in pass1, Row in pass2 */
+            , <&pro_micro 4 GPIO_ACTIVE_HIGH>  /* Pin 4: Col in pass1, Row in pass2 */
+            , <&pro_micro 5 GPIO_ACTIVE_HIGH>  /* Pin 5: Col in pass1, Row in pass2 */
+            , <&pro_micro 6 GPIO_ACTIVE_HIGH>  /* Pin 6: Col in pass1, Row in pass2 */
+            , <&pro_micro 7 GPIO_ACTIVE_HIGH>  /* Pin 7: Row in pass1, Col in pass2 */
+            , <&pro_micro 8 GPIO_ACTIVE_HIGH>  /* Pin 8: Row in pass1, Col in pass2 */
+            , <&pro_micro 9 GPIO_ACTIVE_HIGH>  /* Pin 9: Row in pass1, Col in pass2 */
+            , <&pro_micro 10 GPIO_ACTIVE_HIGH> /* Pin 10: Row in pass1, Col in pass2 */
             ;
 
-        col-gpios
-            = <&pro_micro 4 GPIO_ACTIVE_HIGH>
-            , <&pro_micro 5 GPIO_ACTIVE_HIGH>
-            , <&pro_micro 6 GPIO_ACTIVE_HIGH>
-            , <&pro_micro 7 GPIO_ACTIVE_HIGH>
-            , <&pro_micro 8 GPIO_ACTIVE_HIGH>
-            , <&pro_micro 9 GPIO_ACTIVE_HIGH>
-            , <&pro_micro 10 GPIO_ACTIVE_HIGH>
-            , <&pro_micro 14 GPIO_ACTIVE_HIGH>
-            , <&pro_micro 15 GPIO_ACTIVE_HIGH>
-            , <&pro_micro 16 GPIO_ACTIVE_HIGH>
-            , <&pro_micro 18 GPIO_ACTIVE_HIGH>
-            , <&pro_micro 19 GPIO_ACTIVE_HIGH>
-            , <&pro_micro 20 GPIO_ACTIVE_HIGH>
-            ;
+        /* Split point: first 7 pins = columns in pass1, last 4 pins = rows in pass1 */
+        duplex-gpios = <7>;
+
+        /* Debounce configuration */
+        debounce-period-ms = <5>;
+        poll-period-ms = <10>;
     };
 
     /* Horizontal Rotary Encoder
-     * Temporarily disabled - P1.01/P1.02 are used for trackball I2C
-     * Re-enable after implementing duplex matrix to free up pins
+     * Re-enabled with duplex matrix (freed P1.01/P1.02)
      */
-    /*
     encoder: encoder {
         compatible = "alps,ec11";
         label = "ENCODER";
@@ -89,13 +94,12 @@
         sensors = <&encoder>;
         triggers-per-rotation = <15>;
     };
-    */
 };
 
 /* I2C1 configuration for trackball
- * Uses P1.01 (SDA) and P1.02 (SCL) - nice!nano extra GPIO pins on the back.
+ * Uses A0/P0.04 (SDA) and A1/P0.05 (SCL) - freed by duplex matrix.
  * I2C pins configured in boards/nice_nano.overlay.
- * Note: Encoder is temporarily disabled to free up these pins.
+ * Encoder uses P1.01/P1.02 (extra GPIO on back of nice!nano).
  */
 &i2c1 {
     trackball: trackball@a {
